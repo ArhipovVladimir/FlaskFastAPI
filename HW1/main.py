@@ -36,20 +36,35 @@ class Object:
 @app.route('/jacket/')
 def jacket():
 
-    jacket=[Object('Зима', 'Черный', 44),]
-    return render_template('jacket.html', shurc=jacket, number=len(jacket))
+    _jacket=[Object('Зима', 'Черный', 44),]
+
+    context = {'shurc': _jacket,
+               'title': 'Куртки',
+               'number': len(_jacket)}
+
+    return render_template('shurc.html', **context)
 
 @app.route('/coloting/')
 def coloting():
 
-    shurc=[Object('Зима', 'Cиний', 42), Object('Лето', 'Красный', 42), Object('Осень', 'Желтый', 42), Object('Осень', 'Желтый', 42), Object('Осень', 'Желтый', 42)]
-    return render_template('Сoloting.html', shurc=shurc, number=len(shurc))
+    _shurc=[Object('Зима', 'Cиний', 41), Object('Лето', 'Красный', 42), Object('Осень', 'Желтый', 42), Object('Осень', 'Желтый', 42), Object('Осень', 'Желтый', 42)]
+
+    context = {'shurc': _shurc,
+               'title': 'Одежда',
+               'number': len(_shurc)}
+
+    return render_template('shurc.html', **context)
 
 @app.route('/shoes/')
 def shoes():
 
-    shoes=[Object('Зима', 'Бордо', 43), Object('Лето', 'Фиалка', 43), Object('Осень', 'Голубой', 43)]
-    return render_template('shoes.html', shurc=shoes, number=len(shoes))
+    _shoes=[Object('Зима', 'Бордо', 41), Object('Лето', 'Фиалка', 43), Object('Осень', 'Голубой', 43)]
+
+    context = {'shurc': _shoes,
+               'title': 'Обувь',
+               'number': len(_shoes)}
+
+    return render_template('shurc.html', **context)
 
 
 if __name__ == '__main__':

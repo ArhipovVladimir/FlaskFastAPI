@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <div class="row">
-    <h1 class="col-12 text-monospace text-center">Одежда</h1>
+    <h1 class="col-12 text-monospace text-center">{{ title }}</h1>
       {% for shur in shurc %}
         <div class="col-12 col-md-6 col-lg-4">
           <h2>{{ shur.model }}</h2>
@@ -10,7 +11,7 @@
           <p>{{ shur.size }}</p>
      </div>
     {% endfor %}
-        <p> Всего  {{ number }}
+    <p> Всего  {{ number }}
                 {% if number == 1 %}
                     вещь
                 {% elif 2 <= number <= 4 %}
@@ -19,6 +20,7 @@
                     вещей
                 {% endif %}
         </p>
+    </div>
 
 
 {% endblock %}
