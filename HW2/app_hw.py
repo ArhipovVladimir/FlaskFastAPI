@@ -28,8 +28,8 @@ def account():
      return render_template('account.html')
 
 
-@app_hw.route('/log/')
-def log():
+@app_hw.route('/logout')
+def logout():
         session.pop('username', None)
         session.pop('mail', None)
         return redirect(url_for('account'))
