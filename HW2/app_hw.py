@@ -31,11 +31,10 @@ def account():
 
 @app_hw.route('/logout/')
 def logout():
-    if request.method == 'POST':
         session.pop('username', None)
         session.pop('mail', None)
         print(session)
-    return redirect(url_for('account'))
+        return redirect(url_for('account'))
 
 
 @app_hw.route('/info/')
