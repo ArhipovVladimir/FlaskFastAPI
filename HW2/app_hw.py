@@ -37,9 +37,9 @@ def logout():
         return redirect(url_for('account'))
 
 
-@app_hw.route('/info/')
-def info():
-    return redirect(url_for('account'))
+# @app_hw.route('/info/')
+# def info():
+#     return redirect(url_for('account'))
 
 
 if __name__ == '__main__':
