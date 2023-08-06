@@ -19,20 +19,29 @@ app_hw = Flask(__name__)
 
 app_hw.secret_key = '62e14179dd8dea918d1375fd65876e8568034827b5bee3a9f037ae36e3922ec4'
 
+
 @app_hw.route('/', methods=['GET', 'POST'])
 def account():
-     if request.method == 'POST':
+    if request.method == 'POST':
         session['username'] = request.form.get('username')
         session['mail'] = request.form.get('mail')
+        print(session)
         return render_template('info.html', name=session['username'])
-     return render_template('account.html')
+    return render_template('account.html')
 
-
-@app_hw.route('/logout')
+@app_hw.route('/logout/')
 def logout():
+    if request.method == 'POST':
         session.pop('username', None)
         session.pop('mail', None)
-        return redirect(url_for('account'))
+        print(session)
+    return redirect(url_for('account'))
+
+
+@app_hw.route('/info/')
+def info():
+    return redirect(url_for('account'))
+
 
 if __name__ == '__main__':
     app_hw.run(debug=True)

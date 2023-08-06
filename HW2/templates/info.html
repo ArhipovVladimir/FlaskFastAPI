@@ -6,11 +6,11 @@
 </head>
 <body>
     <div>
-        <form action="/logout" method="post">
-            вошли под именем {{ name }}
-            <input type="submit" value="Выход">
-
-        </form>
+        вы рошли под именем {{ name }}
+        <a href="{{ url_for('logout') }}">
+        <button type="submit">
+            выход
+        </button>
     </div>
 
 
