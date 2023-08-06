@@ -5,13 +5,12 @@
     <title>Выход</title>
 </head>
 <body>
-    <div>
-        <form action="/log/" method="post">
-            вошли под именем {{ name }}
-            <input type="submit" value="Вход">
 
-        </form>
-    </div>
+        вы рошли под именем {{ name }}
+        <a href="{{ url_for('logout') }}">
+        <button type="submit">
+            выход
+        </button>
 
 
 </body>

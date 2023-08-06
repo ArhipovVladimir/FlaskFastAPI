@@ -30,14 +30,14 @@ app_hw.secret_key = '62e14179dd8dea918d1375fd65876e8568034827b5bee3a9f037ae36e39
 @app_hw.route('/', methods=['GET', 'POST'])
 def account():
      if request.method == 'POST':
-        session['username'] = request.form.get('username')
-        session['mail'] = request.form.get('mail')
+        session['username'] = request.form.get('Email')
+        session['mail'] = request.form.get('Email')
         return render_template('info.html', name=session['username'])
      return render_template('account.html')
 
 
-@app_hw.route('/log/')
-def log():
+@app_hw.route('/logout/')
+def logout():
         session.pop('username', None)
         session.pop('mail', None)
         return redirect(url_for('account'))
