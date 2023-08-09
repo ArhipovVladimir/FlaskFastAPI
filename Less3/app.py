@@ -33,7 +33,6 @@ def init_db():
 
 
 @app3.cli.command("fill-db")
-# @app.route("/fill-db")
 def fill_tables():
     count = 5
     # Добавляем пользователей
@@ -55,14 +54,14 @@ def fill_tables():
 def all_users():
     users = User.query.all()
     context = {'users': users}
-    return render_template('users.html', **context)
+    return render_template('students.html', **context)
 
 
 @app3.route('/users/<username>/')
 def users_by_username(username):
     users = User.query.filter(User.username == username).all()
     context = {'users': users}
-    return render_template('users.html', **context)
+    return render_template('students.html', **context)
 
 
 @app3.route('/posts/author/<int:user_id>/')
