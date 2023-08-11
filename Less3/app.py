@@ -54,14 +54,14 @@ def fill_tables():
 def all_users():
     users = User.query.all()
     context = {'users': users}
-    return render_template('students.html', **context)
+    return render_template('process.html', **context)
 
 
 @app3.route('/users/<username>/')
 def users_by_username(username):
     users = User.query.filter(User.username == username).all()
     context = {'users': users}
-    return render_template('students.html', **context)
+    return render_template('process.html', **context)
 
 
 @app3.route('/posts/author/<int:user_id>/')
@@ -102,7 +102,7 @@ def register():
         password = form.password.data
         print(email, password)
         ...
-    return render_template('register.html', form=form)
+    return render_template('process.html', form=form)
 
 
 

@@ -48,7 +48,7 @@ def register():
         if existing_user:
             error_msg = 'Username or email already exists.'
             form.username.errors.append(error_msg)
-            return render_template('register.html', form=form)
+            return render_template('process.html', form=form)
         new_user = User(username=username, name=name, surname=surname, email=email, password=spasswd)
         db.session.add(new_user)
         db.session.commit()
@@ -57,7 +57,7 @@ def register():
         success_msg = 'Registration successful!'
         return success_msg
 
-    return render_template('register.html', form=form)
+    return render_template('process.html', form=form)
 
 
 def sycretpass(password):

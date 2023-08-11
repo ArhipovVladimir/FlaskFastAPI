@@ -48,7 +48,7 @@ def users():
         context = {'users': _users,
                    'title': 'Точечная нотация'}
 
-        return render_template('students.html', **context)
+        return render_template('process.html', **context)
 
 
 @app.route('/main/')

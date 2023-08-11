@@ -52,7 +52,7 @@ def all_students():
     students = Student.query.all()
     print(type(students))
     print('OKclearKK')
-    return render_template('students.html', students=students)
+    return render_template('process.html', students=students)
 
 
 if __name__ == '__main__':
