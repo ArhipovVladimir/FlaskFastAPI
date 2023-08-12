@@ -13,6 +13,11 @@
             <p>{{ user.email }} </p>
         {% endfor %}
 
+    <a href="{{ url_for('create_user') }}">
+        <button type="submit">
+            Новый Пользователь
+        </button>
+    </a>
 
 </body>
 </html>
