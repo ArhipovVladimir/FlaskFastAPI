@@ -31,10 +31,10 @@ users = []
 #     return users
 
 
-# @app.get("/", response_class=HTMLResponse, summary='Получить список пользователей', tags=['Пользователи'])
-# async def read_user(request: Request):
-#     print(request)
-#     return templates.TemplateResponse("users.html", {"request": request, "users": users})
+@app.get("/", response_class=HTMLResponse, summary='Получить список пользователей', tags=['Пользователи'])
+async def read_user(request: Request):
+    print(request)
+    return templates.TemplateResponse("users.html", {"request": request, "users": users})
 
 
 # response_model - то, что возвращает endpoint
@@ -43,11 +43,7 @@ users = []
 async def create_user(item: UserIn):
 
     id = len(users) + 1
-    user = User
-    user.id = id
-    user.name = item.name
-    user.email = item.email
-    user.password = item.password
+    user = User(id=id, **item.dict())
     users.append(user)
     return user
 
