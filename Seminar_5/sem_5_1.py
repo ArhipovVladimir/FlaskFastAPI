@@ -34,6 +34,8 @@ tasks = []
 @app.get("/", response_model=list[Task])
 async def read_tasks():
     return tasks
+
+
 # response_model - то, что возвращает endpoint
 @app.post("/task/", response_model=Task)
 # в аргументах - то, что принимаем
