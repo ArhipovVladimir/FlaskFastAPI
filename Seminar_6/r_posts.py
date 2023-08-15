@@ -30,8 +30,9 @@ async def get_post():
     #                     ))
     return [Post(id=row.id, post=row.post, user=User(id=row.user_id, login=row.login, password='xxxxxx', email='zzzzzz')) for row in rows]
 
+
 @router.post('/posts/', response_model=dict)
-async def inp_post(post : InputPost):
+async def inp_post(post: InputPost):
     query = posts_db.insert().values(
         user_id=post.us_id,
         post=post.post,)

@@ -4,7 +4,7 @@ from settings import settings
 
 db = databases.Database(settings.DATABASE_URL)
 mdt = sqlalchemy.MetaData()
-users_db = sqlalchemy.Table( "users", mdt,
+users_db = sqlalchemy.Table("users", mdt,
                         sqlalchemy.Column("id", sqlalchemy.Integer,primary_key=True),
                         sqlalchemy.Column("login", sqlalchemy.String(32)),
                         sqlalchemy.Column("password", sqlalchemy.String(64)),

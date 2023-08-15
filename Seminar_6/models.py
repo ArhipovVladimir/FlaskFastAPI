@@ -1,4 +1,14 @@
+# Разработать API для управления списком пользователей с
+# использованием базы данных SQLite. Для этого создайте
+# модель User со следующими полями:
+# ○ id: int (идентификатор пользователя, генерируется
+# автоматически)
+# ○ username: str (имя пользователя)
+# ○ email: str (электронная почта пользователя)
+# ○ password: str (пароль пользователя)
+
 from pydantic import BaseModel, Field
+
 
 class InputUser(BaseModel):
     login: str = Field(title="Login", min_length=4)
@@ -9,12 +19,14 @@ class InputUser(BaseModel):
 class User(InputUser):
     id: int
 
+
 class InputPost(BaseModel):
-    us_id : int
-    post : str
+    us_id: int
+    post: str
+
 
 class Post(BaseModel):
-    id : int
-    user : User
-    post : str
+    id: int
+    user: User
+    post: str
 

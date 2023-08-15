@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 templates = Jinja2Templates(directory="templates")
 router = APIRouter()
 
+
 # Создание тестовых пользователей
 @router.get("/fake_users/{count}")
 async def create_note(count: int):
