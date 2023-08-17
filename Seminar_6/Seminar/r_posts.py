@@ -17,18 +17,19 @@ async def get_post():
         users_db.c.login).join(users_db)
     #query = posts_db.select()
     rows = await db.fetch_all(query)
-    # res = []
-    # for row in rows:
-    #     res.append(Post(id=row.id,
-    #                     post=row.post,
-    #                     user=User(
-    #                         id=row.user_id,
-    #                         login=row.login,
-    #                         password='dsfsdfsdfsdf',
-    #                         email='dfdfsfdsf'
-    #                         )
-    #                     ))
-    return [Post(id=row.id, post=row.post, user=User(id=row.user_id, login=row.login, password='xxxxxx', email='zzzzzz')) for row in rows]
+    res = []
+    for row in rows:
+        res.append(Post(id=row.id,
+                        post=row.post,
+                        user=User(
+                            id=row.user_id,
+                            login=row.login,
+                            password='dsfsdfsdfsdf',
+                            email='dfdfsfdsf'
+                            )
+                        ))
+    return res
+    # return [Post(id=row.id, post=row.post, user=User(id=row.user_id, login=row.login, password='xxxxxx', email='zzzzzz')) for row in rows]
 
 
 @router.post('/posts/', response_model=dict)

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Пользовалели</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css' )">
+</head>
+
+<body>
+<a href="/users/add"> Добавить пользователя  </a>
+<table>
+    <thead>
+    <th>id</th>
+    <th>mane</th>
+    <th>email</th>
+    </thead>
+    <tbody>
+</table>
+<h1>Пользователи!</h1>
+    <tr>
+    {% for user in users %}
+            <td>{{ user.id }} </td>
+            <td>{{ user.name }} </td>
+            <td>{{ user.email }} </td>
+        <td>
+            <form method="post">
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <button type="submit">удалить</button>
+            </form>
+        </td>
+    </tr>
+
+    {% endfor %}
+    <a href="{{ url_for('create_user') }}">
+        <button type="submit">
+            Новый Пользователь
+        </button>
+    </a>
+
+</body>
+</html>

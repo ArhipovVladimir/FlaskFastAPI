@@ -1,8 +1,9 @@
 import uvicorn
 from db import *
 from fastapi import FastAPI, Request, HTTPException
-import r_posts
-import users_1
+import items_router
+import users_router
+# import order_router
 
 app = FastAPI()
 
@@ -17,8 +18,9 @@ async def shutdown():
     await db.disconnect()
 
 
-app.include_router(users_1.router, tags=['users'])
-app.include_router(r_posts.router, tags=['posts'])
+app.include_router(users_router.router, tags=['Users'])
+app.include_router(items_router.router, tags=['Item'])
+# app.include_router(order_router.router, tags=['Order'])
 
 if __name__ == '__main__':
     uvicorn.run(
