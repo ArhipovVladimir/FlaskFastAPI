@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from datetime import datetime
 
 
 class InputUser(BaseModel):
@@ -15,21 +16,21 @@ class User(InputUser):
 class InputItem(BaseModel):
     name: str = Field(title="Name", max_length=50)
     price: float = Field(title="Price", gt=0, le=100000)
-    quantity: int = Field(title="Quantity", gt=0)
+    quan: int = Field(title="Quantity", ge=0)
     description: str = Field(default=None, title="Description", max_length=1000)
 
 
 class Item(InputItem):
-    item_id: int
+    id: int
 
 
 class InputOrder(BaseModel):
     user: int
-    date: str = Field(title="Description", max_length=1000)
-    date_placed: str
+    # date_placed: str = Field(default=datetime.now)
     item: int
-    quantity: int = Field(title="Quantity", gt=0)
+    # quantity: int = Field(title="Quantity", gt=0)
+    quantity: int
 
 
 class Order(InputOrder):
-    order_id: int
+    id: int

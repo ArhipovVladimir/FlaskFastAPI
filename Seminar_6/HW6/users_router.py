@@ -31,8 +31,6 @@ async def create_user(user: InputUser):
 @router.get("/users/", response_model=list[User], summary='Просмотр всех пользователей в JSON')
 async def read_users():
     query = users_db.select()
-    result = await db.fetch_all(query)
-    print(result)
     return await db.fetch_all(query)
 
 

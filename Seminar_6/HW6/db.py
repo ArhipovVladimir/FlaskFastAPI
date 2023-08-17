@@ -21,21 +21,21 @@ users_db = sqlalchemy.Table("users",
 items_db = sqlalchemy.Table("items",
                             metadata,
                             sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-                            sqlalchemy.Column("name", sqlalchemy.String(50), nullable=False),
-                            sqlalchemy.Column("price", sqlalchemy.Numeric(10, 2), nullable=False),
-                            sqlalchemy.Column("quantity", sqlalchemy.Integer),
-                            sqlalchemy.Column("description ", sqlalchemy.String(100), nullable=False),
+                            sqlalchemy.Column("name", sqlalchemy.String(50)),
+                            sqlalchemy.Column("price", sqlalchemy.Numeric(10, 2)),
+                            sqlalchemy.Column("quan", sqlalchemy.Integer),
+                            sqlalchemy.Column("description", sqlalchemy.String(100), nullable=False),
                             )
 #
-# order_db = Table("order",
-#                  metadata,
-#                  Column("id", Integer, primary_key=True),
-#                  Column("user", ForeignKey('users.id')),
-#                  Column("date_placed", DateTime(), default=datetime.now),
-#                  Column("item_id", ForeignKey('item_db.id')),
-#                  Column("quantity", Integer)
-#                  )
-
+orders_db = sqlalchemy.Table("order",
+                             metadata,
+                             sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+                             sqlalchemy.Column("user_id", sqlalchemy.ForeignKey('users.id')),
+                             # sqlalchemy.Column("date_placed", sqlalchemy.DateTime(), default=datetime.now),
+                             sqlalchemy.Column("item_id", sqlalchemy.ForeignKey('items.id')),
+                             sqlalchemy.Column("quantity", sqlalchemy.Integer)
+                             )
+#
 #
 # order_line_db = Table("order_line",
 #                       metadata,
