@@ -11,8 +11,9 @@
             ID Order: {{ order.id }}<br>
             Покупатель: {{ order.user_id.first_name }}<br>
             Название товара: {{ order.item_id.name }}<br>
-<!--            Датф: {{ order.date_placed }}<br>-->
+            Дата: {{ order.date_placed }}<br>
             колличество: {{ order.quantity }}<br>
+            статус: {{ order.status }}<br>
 
         </p>
     {% endfor %}

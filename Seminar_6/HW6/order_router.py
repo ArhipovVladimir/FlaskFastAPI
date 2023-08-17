@@ -2,7 +2,7 @@ from models import *
 from fastapi.responses import HTMLResponse
 from fastapi import APIRouter
 from fastapi import Request
-from random import randint, uniform
+from random import randint, choice
 from db import *
 from fastapi.templating import Jinja2Templates
 
@@ -13,7 +13,8 @@ router = APIRouter()
 @router.get("/fake_order/{count}", summary='фейковые данных')
 async def create_order(count: int):
     for i in range(1, count + 1):
-        query = orders_db.insert().values(user_id=randint(1, 15), quantity=randint(1, 100),  item_id=randint(1, 15))
+        query = orders_db.insert().values(user_id=randint(1, 15), quantity=randint(1, 100),
+                                          item_id=randint(1, 15), status=choice([True, False]))
         print(query)
         await db.execute(query)
     return {'message': f'{count} fake Order create OK'}
@@ -28,11 +29,11 @@ async def create_order(order: InputOrder):
 
 @router.get("/order/", response_model=list[Order], summary='Просмотр всех ордеро в  JSON')
 async def read_order():
-    query = orders_db.select()
+    query = orders_db.select().join(users_db).join(items_db)
     print(query)
     result = await db.fetch_all(query)
     print(result)
-    # return await db.fetch_all(query)
+    return await db.fetch_all(query)
 
 
 
@@ -46,7 +47,7 @@ async def read_order():
 #
 
 
-@router.get("/order/id/{item_id}", response_model=Order, summary='Просмотр одного ордера')
+@router.get("/order/id/{order_id}", response_model=Order, summary='Просмотр одного ордера')
 async def read_order(order_id: int):
     query = orders_db.select().where(orders_db.c.id == order_id)
     return await db.fetch_one(query)
@@ -68,12 +69,22 @@ async def delete_order(order_id: int):
 
 @router.get("/list_order/", response_class=HTMLResponse, summary='Просмотр заказов в HTML')
 async def list_order(request: Request):
-    query = orders_db.select()
+    query = orders_db.select().join(users_db).join(items_db)
+    print(await db.fetch_all(query))
     return templates.TemplateResponse("orders.html",
                                       {"request": request,
                                        'orders': await db.fetch_all(query)})
 
+
+# @router.get("/list_order/", response_class=HTMLResponse, summary='Просмотр заказов в HTML')
+# async def list_order(request: Request):
+#     query = select(orders_db.c.id).join(users_db)
+#     print(await db.fetch_all(query))
+#     return templates.TemplateResponse("orders.html",
+#                                       {"request": request,
+#                                        'orders': await db.fetch_all(query)})
 #
+# #
 #
 # @router.get('/Items/', response_model=list[Post])
 # async def get_post():
