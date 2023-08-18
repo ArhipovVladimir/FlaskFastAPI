@@ -25,14 +25,16 @@ class Item(InputItem):
 
 
 class InputOrder(BaseModel):
-    user: User
-    # date_placed: str = Field(default=datetime.now)
-    item: Item
-    # quantity: int = Field(title="Quantity", gt=0)
+    user_id: int
+    item_id: int
     quantity: int
-    # status: bool = Field(default=True)
     status: bool
 
 
-class Order(InputOrder):
+class Order(BaseModel):
     id: int
+    user: User
+    item: Item
+    quantity: int
+    status: bool
+

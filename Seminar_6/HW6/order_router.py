@@ -27,7 +27,7 @@ async def create_order(order: InputOrder):
     return {**order.model_dump(), "id": last_record_id}
 
 
-@router.get("/order/", response_model=list[Order], summary='Просмотр всех ордеро в  JSON')
+@router.get("/order/join", response_model=list[Order], summary='Просмотр всех ордеро в  JSON')
 async def read_order():
     query = orders_db.select().join(users_db).join(items_db)
     print(query)
@@ -36,21 +36,34 @@ async def read_order():
     return await db.fetch_all(query)
 
 
+@router.get('/order/', response_model=list[Order], summary='Просмотр всех ордеров запрос')
+async def get_post():
+    query = sqlalchemy.select(users_db, items_db, orders_db.c.quantity, orders_db.c.status)
+    # print(query)
+    rows = await db.fetch_all(query)
+    return await db.fetch_all(query)
 
-# @router.post('/order/', response_model=dict)
-# async def inp_order(order: InputOrder):
-#     query = items_db.insert().values(
-#         user_id=order.user_id,
-#         irem=post.post,)
-#     last_record_id = await db.execute(query)
-#     return {**order.dict(), "id": last_record_id}
-#
+    # res = []
+    # for row in rows:
+    #     res.append(Post(id=row.id,
+    #                     post=row.post,
+    #                     user=User(
+    #                         id=row.user_id,
+    #                         login=row.login,
+    #                         password='dsfsdfsdfsdf',
+    #                         email='dfdfsfdsf'
+    #                         )
+    #                     ))
+    # return res
+    # # return [Post(id=row.id, post=row.post, user=User(id=row.user_id, login=row.login, password='xxxxxx', email='zzzzzz')) for row in rows]
 
 
-@router.get("/order/id/{order_id}", response_model=Order, summary='Просмотр одного ордера')
-async def read_order(order_id: int):
-    query = orders_db.select().where(orders_db.c.id == order_id)
-    return await db.fetch_one(query)
+# @router.get("/order/id/{order_id}", response_model=Order, summary='Просмотр одного ордера')
+# async def read_order(order_id: int):
+#    query = orders_db.select().where(orders_db.c.id == order_id)
+#    print(query)
+#    print(await db.fetch_one(query))
+#    # return await db.fetch_one(query)
 
 
 @router.put("/order/replace/{order_id}", response_model=Order, summary='изменение Order')
@@ -67,53 +80,53 @@ async def delete_order(order_id: int):
     return {'message': 'Order deleted'}
 
 
-@router.get("/list_order/", response_class=HTMLResponse, summary='Просмотр заказов в HTML')
+@router.get("/list_order/select", response_class=HTMLResponse, summary='Просмотр заказовxthtp через запрос в HTML')
 async def list_order(request: Request):
-    query = orders_db.select().join(users_db).join(items_db)
-    print(await db.fetch_all(query))
+    query = sqlalchemy.select(orders_db.c.id, orders_db.c.status, orders_db.c.quantity,
+                              items_db.c.id.label('item_id'), items_db.c.name, items_db.c.description, items_db.c.price,
+                              users_db.c.id.label('user_id'), users_db.c.first_name.label('fn'), users_db.c.last_name,
+                              users_db.c.email).join(
+        items_db).join(users_db)
     return templates.TemplateResponse("orders.html",
                                       {"request": request,
                                        'orders': await db.fetch_all(query)})
 
 
+@router.get("/list_order/selectJSON", response_model=list[Order], summary='JSON через запрос')
+async def list_order(request: Request):
+    query = sqlalchemy.select(orders_db.c.id, orders_db.c.status, orders_db.c.quantity,
+                              items_db.c.id.label('item_id'), items_db.c.name, items_db.c.description, items_db.c.price,
+                              items_db.c.quan,
+                              users_db.c.id.label('user_id'), users_db.c.first_name, users_db.c.last_name,
+                              users_db.c.username, users_db.c.email).join(
+        items_db).join(users_db)
+    rows = await db.fetch_all(query)
+    print(rows)
+    return [Order(id=row.id,
+                  quantity=row.quantity,
+                  status=row.status,
+                  user=User(id=row.user_id,
+                            last_name=row.last_name,
+                            first_name=row.first_name,
+                            username=row.username,
+                            email=row.email),
+                  item=Item(id=row.item_id,
+                            name=row.name,
+                            price=row.price,
+                            quan=row.quan,
+                            description=row.description
+                            )) for row in rows]
+    # return templates.TemplateResponse("orders.html",
+    #                                   {"request": request,
+    #                                    'orders': await db.fetch_all(query)})
+
+
+
 # @router.get("/list_order/", response_class=HTMLResponse, summary='Просмотр заказов в HTML')
 # async def list_order(request: Request):
-#     query = select(orders_db.c.id).join(users_db)
+#     query = sqlalchemy.select(orders_db.c.id).join(users_db)
 #     print(await db.fetch_all(query))
 #     return templates.TemplateResponse("orders.html",
 #                                       {"request": request,
 #                                        'orders': await db.fetch_all(query)})
-#
-# #
-#
-# @router.get('/Items/', response_model=list[Post])
-# async def get_post():
-#     query = select(
-#         Items_db.c.id, Items_db.c.title,
-#         users_db.c.id.label("user_id"),
-#         users_db.c.usermae).join(users_db)
-#     #query = posts_db.select()
-#     rows = await db.fetch_all(query)
-#     res = []
-#     for row in rows:
-#         res.append(Post(id=row.id,
-#                         post=row.post,
-#                         user=User(
-#                             id=row.user_id,
-#                             login=row.login,
-#                             password='dsfsdfsdfsdf',
-#                             email='dfdfsfdsf'
-#                             )
-#                         ))
-#     return res
-#     # return [Post(id=row.id, post=row.post, user=User(id=row.user_id, login=row.login, password='xxxxxx', email='zzzzzz')) for row in rows]
-#
-# # ToDo заготовка для ордера
-# @router.post('/order/', response_model=dict)
-# async def inp_order(order: InputOrder):
-#     query = items_db.insert().values(
-#         user_id=order.user_id,
-#         irem=post.post,)
-#     last_record_id = await db.execute(query)
-#     return {**order.dict(), "id": last_record_id}
 #

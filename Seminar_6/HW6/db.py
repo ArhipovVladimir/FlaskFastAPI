@@ -34,7 +34,7 @@ orders_db = sqlalchemy.Table("order",
                              # sqlalchemy.Column("date_placed", sqlalchemy.DateTime(), default=datetime.now),
                              sqlalchemy.Column("item_id", sqlalchemy.ForeignKey('items.id')),
                              sqlalchemy.Column("quantity", sqlalchemy.Integer),
-                             sqlalchemy.Column("status", sqlalchemy.Boolean)
+                             sqlalchemy.Column("status", sqlalchemy.Boolean, default=True)
                              )
 #
 #

@@ -22,9 +22,9 @@ async def create_note(count: int):
 # Создание нового пользователя
 @router.post("/users/new/", response_model=User, summary='добавление пользователей')
 async def create_user(user: InputUser):
-    query = users_db.insert().values(**user.dict())
+    query = users_db.insert().values(**user.model_dump())
     last_record_id = await db.execute(query)
-    return {**user.dict(), "id": last_record_id}
+    return {**user.model_dump(), "id": last_record_id}
 
 
 # Список пользователей
@@ -38,15 +38,17 @@ async def read_users():
 @router.get("/users/id/{user_id}", response_model=User, summary='Просмотр одного пользователя')
 async def read_user(user_id: int):
     query = users_db.select().where(users_db.c.id == user_id)
+    # print(query)
+    # print(await db.fetch_one(query))
     return await db.fetch_one(query)
 
 
 # Редактирование пользователя
 @router.put("/users/replace/{user_id}", response_model=User, summary='изменение пользователя')
 async def update_user(user_id: int, new_user: InputUser):
-    query = users_db.update().where(users_db.c.id == user_id).values(**new_user.dict())
+    query = users_db.update().where(users_db.c.id == user_id).values(**new_user.model_dump())
     await db.execute(query)
-    return {**new_user.dict(), "id": user_id}
+    return {**new_user.model_dump(), "id": user_id}
 
 
 # Удаление пользователя
